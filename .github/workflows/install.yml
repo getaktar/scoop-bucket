@@ -1,0 +1,37 @@
+name: Install
+
+# Installs and uninstalls each changed manifest with Scoop on a clean
+# Windows runner, and checks the app landed where the manifest says.
+on:
+  push:
+    paths: ['bucket/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  aktar:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install Scoop
+        shell: pwsh
+        run: |
+          Invoke-RestMethod -Uri https://get.scoop.sh -OutFile install-scoop.ps1
+          ./install-scoop.ps1 -RunAsAdmin
+          Join-Path (Resolve-Path ~).Path 'scoop\shims' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Install Aktar from this bucket
+        shell: pwsh
+        run: |
+          scoop install ./bucket/aktar.json
+          $exe = Join-Path $env:LOCALAPPDATA 'Aktar\aktar.exe'
+          if (-not (Test-Path $exe)) { throw "aktar.exe not found at $exe" }
+          (Get-Item $exe).VersionInfo | Format-List ProductVersion, FileVersion
+          Get-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object DisplayName -eq 'Aktar' | Format-List DisplayName, DisplayVersion
+      - name: Uninstall
+        shell: pwsh
+        run: |
+          scoop uninstall aktar
+          Start-Sleep -Seconds 3
+          if (Test-Path (Join-Path $env:LOCALAPPDATA 'Aktar\aktar.exe')) { throw 'aktar.exe is still there after uninstall' }
