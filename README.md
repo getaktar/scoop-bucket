@@ -1,42 +1,14 @@
-# Scoop Bucket Template
+# Aktar for Scoop
 
-<!-- Uncomment the following line after replacing placeholders -->
-<!-- [![Tests](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml) [![Excavator](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml) -->
+[![Tests](https://github.com/getaktar/scoop-bucket/actions/workflows/ci.yml/badge.svg)](https://github.com/getaktar/scoop-bucket/actions/workflows/ci.yml) [![Excavator](https://github.com/getaktar/scoop-bucket/actions/workflows/excavator.yml/badge.svg)](https://github.com/getaktar/scoop-bucket/actions/workflows/excavator.yml)
 
-Template bucket for [Scoop](https://scoop.sh), the Windows command-line installer.
-
-## How do I use this template?
-
-1. Generate your own copy of this repository with the "Use this template"
-   button.
-2. Allow all GitHub Actions:
-   - Navigate to `Settings` - `Actions` - `General` - `Actions permissions`.
-   - Select `Allow all actions and reusable workflows`.
-   - Then `Save`.
-3. Workflow permissions:
-   - Navigate to `Settings` - `Actions` - `General` - `Workflow permissions`.
-   - Ensure `Read repository contents and packages permissions` is selected.
-   - Then `Save`.
-4. Document the bucket in `README.md`.
-5. Replace the placeholder repository string in `bin/auto-pr.ps1`.
-6. Create new manifests by copying `bucket/app-name.json.template` to
-   `bucket/<app-name>.json`.
-7. Commit and push changes.
-8. If you'd like your bucket to be indexed on `https://scoop.sh`, add the
-   topic `scoop-bucket` to your repository.
-
-## How do I install these manifests?
-
-After manifests have been committed and pushed, run the following:
+[Aktar](https://getaktar.com) uploads files, screenshots and the clipboard to your own Amazon S3, Cloudflare R2, Backblaze B2, DigitalOcean Spaces or MinIO bucket and puts the link on your clipboard.
 
 ```pwsh
-scoop bucket add <bucketname> https://github.com/<username>/<bucketname>
-scoop install <bucketname>/<manifestname>
+scoop bucket add aktar https://github.com/getaktar/scoop-bucket
+scoop install aktar/aktar
 ```
 
-## How do I contribute new manifests?
+The manifest runs Aktar's own installer (per user, into `%LOCALAPPDATA%\Aktar`), so it gets its Start menu entry, Explorer menu and self-updates like any other copy. `scoop update aktar` installs the newest version too; the manifest follows each release of [getaktar/desktop](https://github.com/getaktar/desktop) within a few hours.
 
-To make a new manifest contribution, please read the [Contributing
-Guide](https://github.com/ScoopInstaller/.github/blob/main/.github/CONTRIBUTING.md)
-and [App Manifests](https://github.com/ScoopInstaller/Scoop/wiki/App-Manifests)
-wiki page.
+Aktar is also in the [Microsoft Store](https://apps.microsoft.com/detail/9PHJL211PWM7).
