@@ -1,3 +1,4 @@
+# Updates the manifests when getaktar/desktop releases a new version (checkver + autoupdate).
 name: Excavator
 
 on:
