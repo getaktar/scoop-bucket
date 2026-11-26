@@ -24,7 +24,7 @@ jobs:
       - name: Install Aktar from this bucket
         shell: pwsh
         run: |
-          scoop bucket add aktar $PWD
+          scoop bucket add aktar "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY"
           scoop install aktar/aktar
           $exe = Join-Path $env:LOCALAPPDATA 'Aktar\aktar.exe'
           if (-not (Test-Path $exe)) { throw "aktar.exe not found at $exe" }
